@@ -76,6 +76,9 @@ importers:
       encore.dev:
         specifier: ^1.46.17
         version: 1.46.17
+      hexput:
+        specifier: ^1.0.8
+        version: 1.0.8
       jsonwebtoken:
         specifier: ^9.0.2
         version: 9.0.2
@@ -951,6 +954,9 @@ packages:
     resolution: {integrity: sha512-0hJU9SCPvmMzIBdZFqNPXWa6dqh7WdH0cII9y+CyS8rG3nL48Bclra9HmKhVVUHyPWNH5Y7xDwAB7bfgSjkUMQ==}
     engines: {node: '>= 0.4'}
 
+  hexput@1.0.8:
+    resolution: {integrity: sha512-x1mGcaHih5tv5Xn2OSZ/DepaSVy3xiva0oeJJ1NV+imP0swHwkIDQWTwAkoXxpD9gvMvdkJQ2BStFg0QofW2Qg==}
+
   human-signals@5.0.0:
     resolution: {integrity: sha512-AXcZb6vzzrFAUE61HnN4mpLqd/cSIwNQjtNWR0euPm6y0iqx3G4gOXaIDdtdDwZmhwe82LA6+zinmW4UBWVePQ==}
     engines: {node: '>=16.17.0'}
@@ -1483,6 +1489,18 @@ packages:
     resolution: {integrity: sha512-hUrmaWBdVDcxvYqnyh09zunKzROWjbZTiNy8dBEjkS7ehEDQibXJ7XvlmtbwuTclUiIyN+CyXQD4Vmko8fNm8w==}
     engines: {node: '>=8'}
     hasBin: true
+
+  ws@8.18.1:
+    resolution: {integrity: sha512-RKW2aJZMXeMxVpnZ6bck+RswznaxmzdULiBr6KY7XkTnW8uvt0iT9H5DkHUChXrc+uurzwa0rVI16n/Xzjdz1w==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: '>=5.0.2'
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
 
   yocto-queue@1.2.1:
     resolution: {integrity: sha512-AyeEbWOu/TAXdxlV9wmGcR0+yh2j3vYPGOECcIj2S7MkrLyC7ne+oye2BKTItt0ii2PHk4cDy+95+LshzbXnGg==}
@@ -2187,6 +2205,13 @@ snapshots:
     dependencies:
       function-bind: 1.1.2
 
+  hexput@1.0.8:
+    dependencies:
+      ws: 8.18.1
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
+
   human-signals@5.0.0: {}
 
   import-meta-resolve@4.1.0: {}
@@ -2651,6 +2676,8 @@ snapshots:
     dependencies:
       siginfo: 2.0.0
       stackback: 0.0.2
+
+  ws@8.18.1: {}
 
   yocto-queue@1.2.1: {}
 
