@@ -32,6 +32,8 @@ export const changeNoteCalculation = api(
             throw APIError.notFound("University or university member not found");
         }
 
+
+        // testing code if it returns boolean value, this code will be used to determine if the student passes current course
         const result = await hexput.execute(code, {
             secret_context: {
                 token: authData.token,

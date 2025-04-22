@@ -99,7 +99,7 @@ model University {
 
     note_calculation String @default("res total>50 && final>45;")
 
-    users      UserRole[]
-    Course     Course[]
-    CourseUser Student[]
+    users    UserRole[]
+    courses  Course[]
+    students Student[]
 }
