@@ -9,7 +9,7 @@ interface NoteCalculationRequest {
     universityId: number;
 }
 
-export const patch = api(
+export const changeNoteCalculation = api(
     { expose: true, method: "PATCH", path: "/api/university/:universityId/note-calculation", auth: true },
     async ({ code, universityId }: NoteCalculationRequest) => {
 
