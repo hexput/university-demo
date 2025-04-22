@@ -1,0 +1,105 @@
+model User {
+    id           Int        @id @default(autoincrement())
+    username     String     @unique
+    password     String
+    firstName    String?
+    lastName     String?
+    token        String?    @unique
+    roles        UserRole[]
+    system_admin Boolean    @default(false)
+    createdAt    DateTime   @default(now())
+    updatedAt    DateTime   @updatedAt
+}
+
+enum RoleType {
+    ADMIN
+    LECTURER
+    STUDENT
+}
+
+model UserRole {
+    userId           Int
+    universityId     Int
+    role             RoleType
+    user             User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+    university       University @relation(fields: [universityId], references: [id], onDelete: Cascade)
+    createdAt        DateTime   @default(now())
+    updatedAt        DateTime   @updatedAt
+    as_given_courses Course[]
+    as_students      Student[]
+
+    @@unique([userId, universityId])
+}
+
+model Course {
+    id           Int      @id @default(autoincrement())
+    name         String
+    universityId Int
+    createdAt    DateTime @default(now())
+    updatedAt    DateTime @updatedAt
+    lecturerId   Int
+    lecturer     UserRole @relation(fields: [lecturerId, universityId], references: [userId, universityId], onDelete: Cascade)
+
+    university  University   @relation(fields: [universityId], references: [id], onDelete: Cascade)
+    students    Student[]
+    given_notes NoteSchema[]
+}
+
+model Student {
+    id           Int      @id @default(autoincrement())
+    courseId     Int
+    userId       Int
+    universityId Int
+    createdAt    DateTime @default(now())
+    updatedAt    DateTime @updatedAt
+
+    course     Course     @relation(fields: [courseId], references: [id], onDelete: Cascade)
+    user_role  UserRole   @relation(fields: [userId, universityId], references: [userId, universityId], onDelete: Cascade)
+    university University @relation(fields: [universityId], references: [id], onDelete: Cascade)
+    note_data  NoteData[]
+
+    @@unique([courseId, userId, universityId])
+}
+
+model NoteSchema {
+    id           Int      @id @default(autoincrement())
+    userId       Int
+    universityId Int
+    courseId     Int
+    name         String   // New field
+    type         String   // New field
+    weight       Float
+    createdAt    DateTime @default(now())
+    updatedAt    DateTime @updatedAt
+
+    course Course     @relation(fields: [courseId], references: [id], onDelete: Cascade)
+    notes  NoteData[]
+
+    @@index([userId, universityId], name: "note_schema_user_university_index")
+}
+
+model NoteData {
+    schema_id  Int
+    student_id Int
+
+    note      Float
+    createdAt DateTime   @default(now())
+    updatedAt DateTime   @updatedAt
+    schema    NoteSchema @relation(fields: [schema_id], references: [id], onDelete: Cascade)
+    student   Student    @relation(fields: [student_id], references: [id], onDelete: Cascade)
+
+    @@unique([schema_id, student_id])
+}
+
+model University {
+    id        Int      @id @default(autoincrement())
+    name      String   @unique
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    note_calculation String @default("res total>50 && final>45;")
+
+    users      UserRole[]
+    Course     Course[]
+    CourseUser Student[]
+}

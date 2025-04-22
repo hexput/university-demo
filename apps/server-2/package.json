@@ -1,0 +1,35 @@
+{
+  "name": "@university-demo/server",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Encore Typescript Starter",
+  "license": "MPL-2.0",
+  "type": "module",
+  "scripts": {
+    "test": "vitest",
+    "start": "encore run --watch=false --json",
+    "dev": "encore run --json=true",
+    "db": "npx prisma db push",
+    "seed": "npx tsx seed.ts",
+    "studio": "npx prisma studio"
+  },
+  "devDependencies": {
+    "@prisma/client": "catalog:@prisma/client",
+    "@types/jsonwebtoken": "^9.0.9",
+    "@types/node": "^20.5.7",
+    "typescript": "^5.2.2",
+    "vitest": "^1.5.0"
+  },
+  "dependencies": {
+    "encore.dev": "^1.46.17",
+    "hexput": "^1.0.8",
+    "jsonwebtoken": "^9.0.2",
+    "prisma": "catalog:prisma"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "^4.13.0"
+  },
+  "prisma": {
+    "schema": "./schemas"
+  }
+}
