@@ -13,7 +13,10 @@ interface NotePutRequest {
 
 export const addNote = api(
     { expose: true, method: "PATCH", path: "/api/university/:universityId/course/:courseId/student/:studentId/note/:noteId", auth: true },
-    async ({ noteId, studentId, universityId, note }: NotePutRequest) => {
+    async ({ noteId, studentId, universityId, note }: NotePutRequest): Promise<{
+        ok: boolean,
+        message: string
+    }> => {
 
         const studentRole = await prisma.userRole.findUnique({
             where: {
@@ -52,22 +55,26 @@ export const addNote = api(
             throw APIError.notFound("Student not found");
         }
 
-        await prisma.noteData.upsert({
+        const error = await prisma.noteData.upsert({
             where: {
                 schema_id_student_id: {
                     schema_id: noteId,
-                    student_id: studentId
+                    student_id: student.id
                 }
             },
             create: {
                 note,
                 schema_id: noteId,
-                student_id: studentId,
+                student_id: student.id,
             },
             update: {
                 note,
             }
-        }).catch(() => {});
+        }).then(() => {}).catch((e) => e);
+
+        if (error) {
+            throw APIError.internal("Error while updating note: " + `${error}`);
+        }
 
         return {
             ok: true,

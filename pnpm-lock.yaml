@@ -74,8 +74,8 @@ importers:
   apps/server:
     dependencies:
       encore.dev:
-        specifier: ^1.46.17
-        version: 1.46.17
+        specifier: ^1.46.19
+        version: 1.46.19
       hexput:
         specifier: ^1.0.8
         version: 1.0.8
@@ -877,8 +877,8 @@ packages:
   ecdsa-sig-formatter@1.0.11:
     resolution: {integrity: sha512-nagl3RYrbNv6kQkeJIpt6NJZy8twLB/2vtz6yN9Z4vRKHN4/QZJIEbqohALSgwKdnksuY3k5Addp5lg8sVoVcQ==}
 
-  encore.dev@1.46.17:
-    resolution: {integrity: sha512-S9kFjdGUORk/IpSEcZHKEqg9D/OTckkSgmE1T0ueKosFBIJ7WK7iBPK2ZbyNYJe0lOpLS9pqxZ7JMsEpdHtTWQ==}
+  encore.dev@1.46.19:
+    resolution: {integrity: sha512-qKdmnUcfi1dKrkuM3aDmmfz3K72rAOReGkXbeY+Zj0nFSgeAxVIR0KiGSo/KxYXY3zSAoeKd2alQnRIA6fKDVw==}
     engines: {node: '>=18.0.0'}
 
   enhanced-resolve@5.18.1:
@@ -2086,7 +2086,7 @@ snapshots:
     dependencies:
       safe-buffer: 5.2.1
 
-  encore.dev@1.46.17: {}
+  encore.dev@1.46.19: {}
 
   enhanced-resolve@5.18.1:
     dependencies:

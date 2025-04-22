@@ -76,6 +76,8 @@ model NoteSchema {
     notes  NoteData[]
 
     @@index([userId, universityId], name: "note_schema_user_university_index")
+    @@index([courseId], type: Hash) // Added hash index for course/university lookup
+    @@index([universityId], type: Hash) // Added hash index for course/university lookup
 }
 
 model NoteData {
@@ -89,6 +91,7 @@ model NoteData {
     student   Student    @relation(fields: [student_id], references: [id], onDelete: Cascade)
 
     @@unique([schema_id, student_id])
+    @@index([student_id], type: Hash) // Added hash index for student lookup
 }
 
 model University {

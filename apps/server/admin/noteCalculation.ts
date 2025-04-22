@@ -11,8 +11,10 @@ interface NoteCalculationRequest {
 
 export const changeNoteCalculation = api(
     { expose: true, method: "PATCH", path: "/api/university/:universityId/note-calculation", auth: true },
-    async ({ code, universityId }: NoteCalculationRequest) => {
-
+    async ({ code, universityId }: NoteCalculationRequest): Promise<{
+        ok: boolean,
+        noteCalculation: string
+    }> => {
         const authData: AuthData = getAuthData();
 
         if (!authData) {
@@ -79,7 +81,7 @@ export const changeNoteCalculation = api(
             result: false,
         }));
 
-        if ("error" in result) {
+        if (typeof result === "object" && "error" in result) {
             throw APIError.aborted("Invalid code:" + (result.error?.error || result.error));
         }
 

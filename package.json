@@ -15,7 +15,8 @@
     "db": "pnpm run --filter server db",
     "seed": "pnpm run --filter server seed",
     "test": "pnpm run --filter server test",
-    "studio": "pnpm run --filter server studio"
+    "studio": "pnpm run --filter server studio",
+    "dev:server": "pnpm run --filter server dev"
   },
   "dependencies": {
     "dotenv": "^16.4.7",
