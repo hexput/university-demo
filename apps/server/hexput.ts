@@ -6,7 +6,7 @@ export const hexput = new HexputClient();
 
 hexput.registerFunction("debug", (_context, ...anyObjects: any) => {
     // console.log("\n\nDebug:", ...anyObjects,"\n\n");
-    fs.appendFileSync(path.resolve(process.cwd(), "./debug.log"), "[DEBUG START]\n" + JSON.stringify(anyObjects) + "\n[DEBUG END]\n");
+    fs.appendFileSync(path.resolve(process.cwd(), "./debug.log"), "[DEBUG]: " + JSON.stringify(anyObjects) + "\n");
 })
 
 hexput.connect();
