@@ -223,6 +223,10 @@ export const getStudentCourseNotes = api(
                     notes: notesForCalculation
                 });
 
+                console.log({
+                    result
+                });
+
                 finalGrade = totalScore;
                 passed = !!result;
                 

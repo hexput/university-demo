@@ -124,8 +124,9 @@
             req(`/university/${page.params.schoolId}/note-calculation`, 'PATCH', {
                 code: code
             })
-                .then(() => {
-                    toast.success("Calculation submitted successfully");
+                .then((e) => {
+                    if (e?.message) toast.error("Failed to submit calculation: " + e.message);
+                    else toast.success("Calculation submitted successfully");
                 })
                 .catch(() => {
                     toast.error("Failed to submit calculation");
