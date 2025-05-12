@@ -18,7 +18,17 @@ interface GetCourseNotesRequest {
 // Endpoint to get all courses for the authenticated student
 export const getStudentCourses = api(
     { expose: true, method: "GET", path: "/api/university/:universityId/student/courses", auth: true },
-    async ({ universityId }: GetCoursesRequest) => {
+    async ({ universityId }: GetCoursesRequest): Promise<{
+        courses: {
+            id: number;
+            name: string;
+            lecturer: {
+                firstName: string | null;
+                lastName: string | null;
+                username: string;
+            };
+        }[]
+    }> => {
         const authData: AuthData = getAuthData();
 
         if (!authData) {
@@ -79,10 +89,23 @@ export const getStudentCourses = api(
     }
 );
 
+interface CourseNoteResponse {
+    courseId: number;
+    notes: {
+        id: number;
+        name: string;
+        type: string;
+        weight: number;
+        note: number | null;
+    }[];
+    finalGrade: number | null;
+    passed: boolean | null;
+}
+
 // Endpoint to get notes for a specific course
 export const getStudentCourseNotes = api(
     { expose: true, method: "GET", path: "/api/university/:universityId/student/course/:courseId/notes", auth: true },
-    async ({ universityId, courseId }: GetCourseNotesRequest) => {
+    async ({ universityId, courseId }: GetCourseNotesRequest): Promise<CourseNoteResponse> => {
         const authData: AuthData = getAuthData();
 
         if (!authData) {
@@ -169,7 +192,7 @@ export const getStudentCourseNotes = api(
                 }));
 
                 // Find the final exam note (if any)
-                const finalNote = notesForCalculation.find(n => n.type === "final")?.note || 0;
+                const finalNote = notesForCalculation.find(n => n.type.toLowerCase() === "final")?.note || 0;
                 
                 // Calculate total weighted score
                 const totalWeight = notes.reduce((sum, n) => sum + n.weight, 0);
@@ -202,6 +225,7 @@ export const getStudentCourseNotes = api(
 
                 finalGrade = totalScore;
                 passed = !!result;
+                
             } catch (error) {
                 console.error("Error calculating final grade:", error);
             }
