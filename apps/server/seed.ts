@@ -215,7 +215,21 @@ prisma.university.upsert({
             }
         });
         
-        // Final exam grade not yet entered
+        // Final exam grade
+        await prisma.noteData.upsert({
+            where: {
+                schema_id_student_id: {
+                    schema_id: assignmentSchema.id,
+                    student_id: studentObj.id
+                }
+            },
+            update: { note: 40 },
+            create: {
+                schema_id: finalSchema.id,
+                student_id: studentObj.id,
+                note: 40
+            }
+        });
     }
     
     console.log("Seed data created successfully!");

@@ -7,16 +7,24 @@
 
     import { Switch } from "$lib/components/ui/switch";
     import { states } from "$lib/data.svelte";
+    import { req } from "$lib/utils";
     import { BlocklyComponent } from "@hexput/blockly-svelte"
     import { onMount } from "svelte";
+    import { toast } from "svelte-sonner";
 
+    let currentUniversity = $derived(states.schools.find((school) => school.id === Number(page.params.schoolId)));
+    // svelte-ignore state_referenced_locally
+    let code = $state(currentUniversity?.note_calculation ?? "");
+    // svelte-ignore state_referenced_locally
     let checked = $state(false);
-    let code = $state("");
     let workspace: any = $state(null);
     let blockly: any = browser ? (window as any).Blockly : null;
-    let currentUniversity = $derived(states.schools.find((school) => school.id === Number(page.params.schoolId)));
 
     onMount(() => {
+        setTimeout(() => {
+            checked = code ? true : false;
+        }, 100);
+
         let interval = setInterval(() => {
             if (browser) {
                 if ((window as any).Blockly) {
@@ -109,9 +117,19 @@
     </div>
     <div class="flex flex-row justify-center w-full pt-4">
         <Button class="w-min" onclick={() => {
-            if (currentUniversity?.note_calculation) {
+            if (currentUniversity) {
                 currentUniversity.note_calculation = code;
             }
+
+            req(`/university/${page.params.schoolId}/note-calculation`, 'PATCH', {
+                code: code
+            })
+                .then(() => {
+                    toast.success("Calculation submitted successfully");
+                })
+                .catch(() => {
+                    toast.error("Failed to submit calculation");
+                });
         }}>
             Submit Calculation
         </Button>
